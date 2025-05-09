@@ -1,0 +1,100 @@
+Last login: Sun Apr 27 16:27:27 on ttys000
+[spyder](base) chenpinyu@Pins-MacBook-Pro ~ % conda activate tf_env
+[spyder](tf_env) chenpinyu@Pins-MacBook-Pro ~ % python "/Users/chenpinyu/Desktop/advanced_analytics/instruc.py"
+Found 2640 files belonging to 12 classes.
+Using 1848 files for training.
+2025-04-27 16:34:39.202499: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M3 Pro
+2025-04-27 16:34:39.202523: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 18.00 GB
+2025-04-27 16:34:39.202527: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 6.00 GB
+2025-04-27 16:34:39.202541: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+2025-04-27 16:34:39.202555: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -> physical PluggableDevice (device: 0, name: METAL, pci bus id: <undefined>)
+['argentina', 'austria', 'canada', 'chile', 'france', 'iceland', 'italy', 'japan', 'new_zealand', 'norway', 'peru', 'switzerland']
+Found 2640 files belonging to 12 classes.
+Using 792 files for validation.
+Epoch 1/25
+2025-04-27 16:34:39.551246: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
+58/58 ━━━━━━━━━━━━━━━━━━━━ 11s 156ms/step - accuracy: 0.2612 - loss: 2.8642 - val_accuracy: 0.0911 - val_loss: 2.9621
+Epoch 2/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 152ms/step - accuracy: 0.4294 - loss: 1.8061 - val_accuracy: 0.0807 - val_loss: 3.5585
+Epoch 3/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 164ms/step - accuracy: 0.4976 - loss: 1.5683 - val_accuracy: 0.0859 - val_loss: 4.3119
+Epoch 4/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 11s 163ms/step - accuracy: 0.5488 - loss: 1.4128 - val_accuracy: 0.0833 - val_loss: 4.4367
+Epoch 5/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 161ms/step - accuracy: 0.5976 - loss: 1.2378 - val_accuracy: 0.1068 - val_loss: 4.0390
+Epoch 6/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 164ms/step - accuracy: 0.6141 - loss: 1.1855 - val_accuracy: 0.1536 - val_loss: 3.7824
+Epoch 7/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 162ms/step - accuracy: 0.6085 - loss: 1.0974 - val_accuracy: 0.1276 - val_loss: 3.4115
+Epoch 8/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 166ms/step - accuracy: 0.6533 - loss: 1.0494 - val_accuracy: 0.3099 - val_loss: 2.7521
+Epoch 9/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 159ms/step - accuracy: 0.6480 - loss: 0.9813 - val_accuracy: 0.3620 - val_loss: 2.4831
+Epoch 10/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 161ms/step - accuracy: 0.6727 - loss: 0.9595 - val_accuracy: 0.5365 - val_loss: 1.5031
+Epoch 11/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 163ms/step - accuracy: 0.7009 - loss: 0.8621 - val_accuracy: 0.5104 - val_loss: 1.5209
+Epoch 12/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 158ms/step - accuracy: 0.7331 - loss: 0.7912 - val_accuracy: 0.6432 - val_loss: 1.0816
+Epoch 13/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 159ms/step - accuracy: 0.7147 - loss: 0.8147 - val_accuracy: 0.6641 - val_loss: 0.9522
+Epoch 14/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 158ms/step - accuracy: 0.7316 - loss: 0.7466 - val_accuracy: 0.5755 - val_loss: 1.4219
+Epoch 15/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 157ms/step - accuracy: 0.7700 - loss: 0.6672 - val_accuracy: 0.6823 - val_loss: 0.9799
+Epoch 16/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 158ms/step - accuracy: 0.7716 - loss: 0.6509 - val_accuracy: 0.6094 - val_loss: 1.2863
+Epoch 17/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 157ms/step - accuracy: 0.7731 - loss: 0.6407 - val_accuracy: 0.6719 - val_loss: 1.0580
+Epoch 18/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 160ms/step - accuracy: 0.7795 - loss: 0.6367 - val_accuracy: 0.5755 - val_loss: 1.3404
+Epoch 19/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 157ms/step - accuracy: 0.8097 - loss: 0.5357 - val_accuracy: 0.6380 - val_loss: 1.1101
+Epoch 20/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 157ms/step - accuracy: 0.8134 - loss: 0.5539 - val_accuracy: 0.6589 - val_loss: 0.9415
+Epoch 21/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 156ms/step - accuracy: 0.8186 - loss: 0.4968 - val_accuracy: 0.6042 - val_loss: 1.2700
+Epoch 22/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 162ms/step - accuracy: 0.8611 - loss: 0.4331 - val_accuracy: 0.6224 - val_loss: 1.2305
+Epoch 23/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 9s 155ms/step - accuracy: 0.8189 - loss: 0.4648 - val_accuracy: 0.6432 - val_loss: 1.1768
+Epoch 24/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 158ms/step - accuracy: 0.8563 - loss: 0.4356 - val_accuracy: 0.6172 - val_loss: 1.1999
+Epoch 25/25
+58/58 ━━━━━━━━━━━━━━━━━━━━ 10s 163ms/step - accuracy: 0.8328 - loss: 0.4615 - val_accuracy: 0.7005 - val_loss: 1.0168
+13/13 ━━━━━━━━━━━━━━━━━━━━ 1s 34ms/step - accuracy: 0.6697 - loss: 1.0748 
+Test Accuracy: 0.6912
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 112ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 33ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 33ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 35ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 33ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 34ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 33ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 33ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 34ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 34ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 35ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 35ms/step
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 109ms/step
+2025-04-27 16:38:48.209482: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+              precision    recall  f1-score   support
+
+           0       0.62      0.50      0.55        16
+           1       0.44      0.69      0.53        51
+           2       1.00      0.67      0.80        45
+           3       0.72      0.90      0.80        40
+           4       0.53      0.33      0.41        30
+           5       0.92      0.69      0.79        16
+           6       0.28      0.24      0.26        33
+           7       0.69      0.87      0.77        39
+           8       1.00      1.00      1.00        30
+           9       0.91      1.00      0.95        29
+          10       0.89      0.55      0.68        31
+          11       0.69      0.65      0.67        48
+
+    accuracy                           0.68       408
+   macro avg       0.72      0.67      0.68       408
+weighted avg       0.71      0.68      0.68       408
+
+[spyder](tf_env) chenpinyu@Pins-MacBook-Pro ~ % 
