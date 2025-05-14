@@ -38,39 +38,39 @@ if physical_devices:
 
 '''
 def remove_black_border(image_path, save_path, threshold=10, target_size=(256, 256)):
-    """ 去除黑色邊框並調整大小 """
+    """ remove black border """
     try:
         image = Image.open(image_path).convert("RGB")
         image_array = np.array(image)
         
-        # 建立非黑色區域的遮罩
+        # mask non-black area
         mask = np.any(image_array > [threshold, threshold, threshold], axis=-1)
         
-        # 找出非黑色區域的邊界
+        # find the boundary of black border
         coords = np.argwhere(mask)
         if coords.size == 0:
-            print(f"⚠️ 全黑圖片，無法裁剪: {image_path}")
+            print(f"⚠️ whole black image: {image_path}")
             return
         
         y_min, x_min = coords.min(axis=0)
         y_max, x_max = coords.max(axis=0)
 
-        # 確保不會發生反轉
+        # make sure not inversing
         if x_max > x_min and y_max > y_min:
             cropped_image = image.crop((x_min, y_min, x_max + 1, y_max + 1))
         else:
-            cropped_image = image  # 如果沒法裁剪，則使用原圖
+            cropped_image = image  
 
-        # 縮放至指定大小
+        # resize
         resized_image = cropped_image.resize((512, 256), Image.LANCZOS)
 
-        # 確保儲存路徑存在
+        # save 
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
         resized_image.save(save_path)
-        print(f"✅ 處理完成: {image_path} -> {save_path}")
+        print(f"✅ done: {image_path} -> {save_path}")
     except Exception as e:
-        print(f"❌ 錯誤發生: {image_path}: {e}")
+        print(f"❌ error: {image_path}: {e}")
 
 def process_folder(input_folder, output_folder):
     if not os.path.exists(output_folder):
@@ -104,32 +104,31 @@ print("Processing complete!")
 
 
 def convert_jpg_to_png(image_path):
-    """ 将 JPG/JPEG 转换为 PNG """
     try:
         img = cv2.imread(image_path)
         if img is None:
-            print(f"❌ 无法读取图像: {image_path}")
+            print(f"❌ image not loaded: {image_path}")
             return
         
-        new_path = image_path.rsplit('.', 1)[0] + ".png"  # 替换后缀
-        cv2.imwrite(new_path, img)  # 保存为 PNG
-        print(f"✅ 转换成功: {new_path}")
+        new_path = image_path.rsplit('.', 1)[0] + ".png"  
+        cv2.imwrite(new_path, img)  
+        print(f"✅ success: {new_path}")
 
     except Exception as e:
-        print(f"⚠️ 转换失败 {image_path}:  {e}")
+        print(f"⚠️ failed {image_path}:  {e}")
 
-# 遍历所有国家的文件夹
+# go through all folders
 for class_name in os.listdir(dataset_path):
     class_path = os.path.join(dataset_path, class_name)
     
     if not os.path.isdir(class_path):  
-        continue  # 跳过非文件夹项
+        continue  
 
-    # 遍历文件夹中的所有图像文件
+    # go through all images
     for file_name in os.listdir(class_path):
-        if file_name.lower().endswith(('.jpg', '.jpeg')):  # 只处理 JPG/JPEG 文件
+        if file_name.lower().endswith(('.jpg', '.jpeg')): 
             file_path = os.path.join(class_path, file_name)
-            convert_jpg_to_png(file_path)  # 执行转换
+            convert_jpg_to_png(file_path)  
 
 for class_name in os.listdir(dataset_path):
     class_path = os.path.join(dataset_path, class_name)
@@ -138,7 +137,7 @@ for class_name in os.listdir(dataset_path):
             os.remove(jpg_file)
         for jpeg_file in glob.glob(os.path.join(class_path, "*.jpeg")):
             os.remove(jpeg_file)
-print("🗑️ 已删除所有 JPG/JPEG 文件，只剩 PNG")
+print("done")
 
 '''
 # Set image size and batch size
@@ -158,7 +157,6 @@ train_datagen = ImageDataGenerator(
     validation_split=0.2  # 80/20 train-validation split
 )
 
-#Image.MAX_IMAGE_PIXELS = None  # 取消 PIL 圖片大小限制
 
 # Load training data
 train_generator = train_datagen.flow_from_directory(
@@ -190,7 +188,7 @@ val_generator = train_datagen.flow_from_directory(
 
 # pretrained mmodel: ResNet50
 base_model = ResNet50(weights="imagenet", include_top=False, input_shape=(512, 256, 3))
-base_model.trainable = False  # 初始時凍結預訓練層
+base_model.trainable = False  
 
 # Custom classifier
 x = layers.GlobalAveragePooling2D()(base_model.output)
@@ -201,7 +199,7 @@ x = layers.Dense(NUM_CLASSES, activation="softmax")(x)  # 12 country classes
 # Define full model
 model = Model(inputs=base_model.input, outputs=x)
 
-# 建立 CustomModel
+# construct CustomModel
 #model = CustomModel(inputs=base_model.input, outputs=x)
 
 # Compile model EfficientNet
@@ -221,17 +219,17 @@ history = model.fit(
     verbose=1
 )
 
-# **解凍部分ResNet層進行Fine-Tuning**
+# Fine-Tuning**
 base_model.trainable = True
-for layer in base_model.layers[:100]:  # 只解凍最後50層
+for layer in base_model.layers[:100]:  # the last 50 layers
     layer.trainable = False
 
-# 重新編譯
-model.compile(optimizer=Adam(learning_rate=0.00001),  # 調低學習率
+# re-compile
+model.compile(optimizer=Adam(learning_rate=0.00001),  # lower the learning rate
               loss="sparse_categorical_crossentropy",
               metrics=["accuracy"])
 
-# 再次訓練
+# re train
 history_fine = model.fit(
     train_generator,
     epochs=10,
@@ -250,13 +248,13 @@ print("Classification Report:")
 print(classification_report(y_true, y_pred_classes, target_names=list(train_generator.class_indices.keys())))
 print(f"Validation Accuracy: {accuracy_score(y_true, y_pred_classes):.4f}")
 
-# **可視化訓練結果**
+# **visualization**
 import matplotlib.pyplot as plt
 plt.plot(history.history['accuracy'], label='Train Accuracy')
 plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
 plt.legend()
 plt.show()
 
-# **儲存模型**
+# **saving**
 model.save("/Users/chenpinyu/Desktop/advanced_analytics/geoguessr_country_model.keras")
 
