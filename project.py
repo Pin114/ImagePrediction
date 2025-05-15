@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
 import numpy as np
 #print(np.__version__)
 #import scipy.ndimage
@@ -208,8 +202,7 @@ model.compile(optimizer=Adam(learning_rate=0.0001),
               loss="sparse_categorical_crossentropy",
               metrics=["accuracy"])
 
-# Model Summary
-#model.summary()
+
 
 # Train model
 history = model.fit(
@@ -229,7 +222,7 @@ model.compile(optimizer=Adam(learning_rate=0.00001),  # lower the learning rate
               loss="sparse_categorical_crossentropy",
               metrics=["accuracy"])
 
-# re train
+# retrain
 history_fine = model.fit(
     train_generator,
     epochs=10,
