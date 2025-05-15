@@ -41,34 +41,33 @@ def remove_black_border(image_path, save_path, threshold=10, target_size=(256, 2
         image = Image.open(image_path).convert("RGB")
         image_array = np.array(image)
         
-        # 建立非黑色區域的遮罩
         mask = np.any(image_array > [threshold, threshold, threshold], axis=-1)
         
-        # 找出非黑色區域的邊界
+        # find the boundary of the black area
         coords = np.argwhere(mask)
         if coords.size == 0:
-            print(f"⚠️ 全黑圖片，無法裁剪: {image_path}")
+            print(f"⚠️ whole black, can not be cropped: {image_path}")
             return
         
         y_min, x_min = coords.min(axis=0)
         y_max, x_max = coords.max(axis=0)
 
-        # 確保不會發生反轉
+        # make sure not to reverse
         if x_max > x_min and y_max > y_min:
             cropped_image = image.crop((x_min, y_min, x_max + 1, y_max + 1))
         else:
-            cropped_image = image  # 如果沒法裁剪，則使用原圖
+            cropped_image = image  
 
-        # 縮放至指定大小
+        # resize
         resized_image = cropped_image.resize((512, 256), Image.LANCZOS)
 
-        # 確保儲存路徑存在
+        # save
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
         resized_image.save(save_path)
-        print(f"✅ 處理完成: {image_path} -> {save_path}")
+        print(f"✅ done: {image_path} -> {save_path}")
     except Exception as e:
-        print(f"❌ 錯誤發生: {image_path}: {e}")
+        print(f"❌ error: {image_path}: {e}")
 
 def process_folder(input_folder, output_folder):
     if not os.path.exists(output_folder):
@@ -146,21 +145,21 @@ val_test_ds = keras.utils.image_dataset_from_directory(
 )
 
 
-# 再切割 val 和 test
+# split val 和 test
 val_batches = int(len(val_test_ds) * 0.5)  # 15% validation, 15% test
 val_ds = val_test_ds.take(val_batches)
 test_ds = val_test_ds.skip(val_batches)
 
-# 資料增強的 layer
+# augmentation layer
 data_augmentation = tf.keras.Sequential([
-    #layers.RandomFlip("horizontal_and_vertical"),  # 隨機水平 & 垂直翻轉
+    #layers.RandomFlip("horizontal_and_vertical"),  
     layers.RandomZoom(0.05,0.1),            
-    layers.RandomContrast(0.1),             # 隨機調整亮度
+    layers.RandomContrast(0.1),             
     layers.RandomRotation(0.1),
 ])
 
 AUTOTUNE = tf.data.AUTOTUNE
-# 確保 prefetch 加速
+# prefetch : speed up
 train_ds = (
     train_ds
     .map(lambda x, y: (data_augmentation(x, training=True), y), num_parallel_calls=AUTOTUNE)
@@ -169,7 +168,7 @@ train_ds = (
 val_ds = val_ds.prefetch(AUTOTUNE)
 test_ds = test_ds.prefetch(AUTOTUNE)
 
-# 模型建構
+# construct model
 def make_model(input_shape, num_classes):
     inputs = keras.Input(shape=input_shape)
     x = layers.Rescaling(1.0 / 255)(inputs)
@@ -181,7 +180,7 @@ def make_model(input_shape, num_classes):
 
     x = layers.GlobalAveragePooling2D()(x)
     x = layers.Dropout(0.25)(x)
-    outputs = layers.Dense(num_classes, activation="softmax")(x)  # 確保 softmax
+    outputs = layers.Dense(num_classes, activation="softmax")(x)  # make sure softmax
     return keras.Model(inputs, outputs)
 
 model = make_model(input_shape=image_size + (3,), num_classes=12)
@@ -189,23 +188,23 @@ model = make_model(input_shape=image_size + (3,), num_classes=12)
 model.compile(
     #optimizer=Adam(learning_rate=3e-4, weight_decay=1e-4),
     optimizer=Nadam(learning_rate=3e-4),
-    loss=keras.losses.SparseCategoricalCrossentropy(from_logits=False),  # 修正
+    loss=keras.losses.SparseCategoricalCrossentropy(from_logits=False),  
     metrics=["accuracy"],
 )
 
 
-# 訓練模型
+# train
 model.fit(
     train_ds,
     epochs=25,
     validation_data=val_ds,
 )
 
-# 測試模型
+# test
 test_loss, test_acc = model.evaluate(test_ds)
 print(f"Test Accuracy: {test_acc:.4f}")
 
-# 預測測試集
+# predict on the test set
 true_labels = []
 predicted_classes = []
 
