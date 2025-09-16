@@ -1,8 +1,6 @@
-The objective of thisproject is to train and evaluate a deep learning model for an image classification task. The dataset consists of images from 12 different countries, and we aim to classify these images into their respective categories using a Convolutional Neural Network (CNN). 
-
+The objective of this project is to train and evaluate a deep learning model for an image classification task. The dataset consists of images from 12 different countries, and we aim to classify these images into their respective categories using a Convolutional Neural Network (CNN). 
 
 Methodology 
-
 Dataset Preparation: The dataset contains a total of 2640 images from 12 different classes. The dataset is divided into a training set (1848 images) and a validation set (792 images). 
 
 Data Augmentation: TensorFlow's ImageDataGenerator is used for data augmentation, which includes random zoom, random contrast adjustment, and random rotation. These techniques are applied to enhance the model's generalization ability. 
